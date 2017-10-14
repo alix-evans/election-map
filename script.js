@@ -48,6 +48,29 @@ var setStateResults = function(state) {
 	} else {
 		theStates[state].rgbColor = [11, 32, 57];
 	};
+	//identify nodes on state table
+	var stateTable = document.getElementById('stateResults');
+	var sHeader = stateTable.children[0];
+	var sBody = stateTable.children[1];
+	var sStateName = sHeader.children[0].children[0];
+	var sAbbrev = sHeader.children[0].children[1];
+	var name1 = sBody.children[0].children[0];
+	var results1 = sBody.children[0].children[1];
+	var name2 = sBody.children[1].children[0];
+	var results2 = sBody.children[1].children[1];
+	var winnerName = sBody.children[2].children[1];
+	//populate nodes of state table
+	sStateName.innerText = theStates[state].nameFull;
+	sAbbrev.innerText = theStates[state].nameAbbrev;
+	name1.innerText = candidate1.name;
+	results1.innerText = candidate1.electionResults[state];
+	name2.innerText = candidate2.name;
+	results2.innerText = candidate2.electionResults[state];
+	if (stateWinner !== null) {
+		winnerName.innerText = stateWinner.name;
+	} else {
+		winnerName.innerText = "DRAW";
+	};
 };
 
 //tally
@@ -58,17 +81,19 @@ candidate2.totalVotes();
 var winner;
 if (candidate1.totalVotes > candidate2.totalVotes)
 {
-	winner = candidate1.name;
+	winner = candidate1;
 }
 else if (candidate1.totalVotes < candidate2.totalVotes)
 {
-	winner = candidate2.name;
+	winner = candidate2;
 }
-else { winner = " no one!  It's a tie" };
+else { winner = "DRAW" };
 
-//display results
-console.log(candidate1.name + " gets " + candidate1.totalVotes + " votes!");
-console.log(candidate2.name + " gets " + candidate2.totalVotes + " votes!");
-console.log("And the winner is..." + winner + "!!!");
-console.log(candidate1.name + "'s color is " + candidate1.partyColor + ".");
-console.log(candidate2.name + "'s color is " + candidate2.partyColor + ".");
+//populate country table
+var countryTable = document.getElementById('countryResults');
+var ct = countryTable.children[0].children[0];
+ct.children[0].innerText = candidate1.name;
+ct.children[1].innerText = candidate1.totalVotes;
+ct.children[2].innerText = candidate2.name;
+ct.children[3].innerText = candidate2.totalVotes;
+ct.children[5].innerText = winner.name;
